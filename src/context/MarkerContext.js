@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { db } from '../../firebase';
+import firestore from '@react-native-firebase/firestore';
 
 export const MarkerContext = createContext();
 
@@ -36,10 +36,8 @@ export const MarkerProvider = ({ children }) => {
 
   const [currentPositon, setCurrentPosition] = useState(initialState);
 
-  const getGlassMarker = async () => {
-    const markers = await db.collection('glassMarkers').get();
-    //console.log(markers);
-    db.collection('glassMarkers')
+  const getGlassMarker = async () => {    
+    firestore().collection('glassMarkers')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
@@ -49,7 +47,7 @@ export const MarkerProvider = ({ children }) => {
   };
 
   const getOrganicWasteMarker = async () => {
-    db.collection('organicWasteMarkers')
+    firestore().collection('organicWasteMarkers')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
@@ -59,7 +57,7 @@ export const MarkerProvider = ({ children }) => {
   };
 
   const getPlasticMetalMarker = async () => {
-    db.collection('plasticMetalMarkers')
+    firestore().collection('plasticMetalMarkers')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
@@ -69,7 +67,7 @@ export const MarkerProvider = ({ children }) => {
   };
 
   const getMaskGlovesMarker = async () => {
-    db.collection('maskGlovesMarkers')
+    firestore().collection('maskGlovesMarkers')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
@@ -79,7 +77,7 @@ export const MarkerProvider = ({ children }) => {
   };
 
   const getElectronicWasteMarker = async () => {
-    db.collection('electronicWasteMarkers')
+    firestore().collection('electronicWasteMarkers')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
@@ -89,7 +87,7 @@ export const MarkerProvider = ({ children }) => {
   };
 
   const getMarkerInfo = async (id, markerName) => {
-    db.collection(markerName)
+    firestore().collection(markerName)
       .doc(id)
       .collection('address')
       .get()
